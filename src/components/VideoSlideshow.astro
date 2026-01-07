@@ -1,0 +1,59 @@
+---
+<script is:inline>
+  (async () => {
+    const container = document.querySelector('.video-slideshow');
+    if (!container) return;
+
+    try {
+      const res = await fetch('/api/videos');
+      const videos = (await res.json()).slice(0, 5);
+
+      videos.forEach((filename, index) => {
+        const video = document.createElement('video');
+        video.src = `/videos/${filename}`;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        video.playsInline = true;
+        video.className = 'slide';
+        video.style.animationDelay = `${index * 5}s`;
+        container.appendChild(video);
+      });
+    } catch (err) {
+      console.error('Error loading videos:', err);
+    }
+  })();
+</script>
+---
+
+<div class="video-slideshow"></div>
+
+<style>
+  .video-slideshow {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+  }
+
+  .slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: fadeSlide 25s infinite;
+  }
+
+  @keyframes fadeSlide {
+    0% { opacity: 0; transform: translateX(100%); }
+    10% { opacity: 1; transform: translateX(0); }
+    40% { opacity: 1; transform: translateX(0); }
+    50% { opacity: 0; transform: translateX(-100%); }
+    100% { opacity: 0; transform: translateX(-100%); }
+  }
+</style>

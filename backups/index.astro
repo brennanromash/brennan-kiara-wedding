@@ -1,0 +1,26 @@
+---
+import VideoMarquee from "../components/VideoMarquee.astro";
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Brennan & Kiara's Wedding</title>
+	</head>
+	<body class="bg-black text-white overflow-hidden">
+		<main class="relative h-screen w-screen overflow-hidden">
+			<VideoMarquee />
+
+			<div id="overlay" class="absolute inset-0 flex flex-col items-center justify-center text-center bg-black/30 pointer-events-none z-10">
+				<h1 class="text-4xl md:text-6xl font-bold mb-6 pointer-events-auto">Brennan & Kiara</h1>
+				<a href="https://www.zola.com/" target="_blank" class="bg-white text-black px-6 py-3 rounded-lg text-lg font-semibold hover:bg-gray-200 transition pointer-events-auto">
+					View Our Wedding Details
+				</a>
+			</div>
+		</main>
+	</body>
+</html>
+

@@ -1,0 +1,127 @@
+---
+import fs from "fs";
+import path from "path";
+
+// Define the video directory relative to the current project
+const videoDir = path.join(process.cwd(), "public", "videos");
+
+// Get all video files in the directory
+let videos: string[] = [];
+try {
+  if (fs.existsSync(videoDir)) {
+    videos = fs
+      .readdirSync(videoDir)
+      .filter((file) => /\.(mp4|webm|ogg|mov)$/i.test(file))
+      .sort((a, b) => {
+        // Hardcode "My Movie.mp4" to be first
+        if (a === "My Movie.mp4") return -1;
+        if (b === "My Movie.mp4") return 1;
+
+        // Remove extension for comparison to ensure "My Movie" comes before "My Movie 1"
+        const nameA = a.replace(/\.[^/.]+$/, "");
+        const nameB = b.replace(/\.[^/.]+$/, "");
+        return nameA.localeCompare(nameB, undefined, { numeric: true, sensitivity: 'base' });
+      })
+      .map((file) => `/videos/${file}`);
+    
+    console.log(`Fetched and sorted ${videos.length} videos:`, videos);
+  } else {
+    console.warn(`Video directory not found: ${videoDir}`);
+  }
+} catch (err) {
+  console.error("Error reading videos directory:", err);
+}
+---
+
+<div class="marquee-container">
+    {videos.length > 0 ? (
+      <div class="marquee-track">
+        {/* List A */}
+        <div class="marquee-list">
+          {videos.map((video) => (
+            <video 
+              src={video} 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              class="marquee-video"
+              onloadedmetadata="this.play()"
+            />
+          ))}
+        </div>
+        {/* List B (Duplicate for seamless loop) */}
+        <div class="marquee-list">
+          {videos.map((video) => (
+            <video 
+              src={video} 
+              autoplay 
+              loop 
+              muted 
+              playsinline 
+              class="marquee-video"
+              onloadedmetadata="this.play()"
+            />
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="text-white p-4">No videos found</div>
+    )}
+</div>
+
+<script>
+  // Force play all videos on page load to handle potential autoplay restrictions
+  document.addEventListener('DOMContentLoaded', () => {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+      video.play().catch(error => {
+        console.warn("Autoplay was prevented, retrying on interaction...", error);
+        // Fallback: try to play on first user interaction
+        const playOnInteraction = () => {
+          video.play();
+          document.removeEventListener('click', playOnInteraction);
+        };
+        document.addEventListener('click', playOnInteraction);
+      });
+    });
+  });
+</script>
+
+<style>
+  .marquee-container {
+    overflow: hidden;
+    width: 100%;
+    background: #000;
+  }
+
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    gap: 0;
+    animation: scroll 240s linear infinite;
+  }
+
+  .marquee-list {
+    display: flex;
+    flex-shrink: 0;
+    gap: 0;
+  }
+
+  .marquee-video {
+    height: 100vh;
+    width: auto;
+    flex-shrink: 0;
+    display: block;
+    object-fit: cover;
+  }
+
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

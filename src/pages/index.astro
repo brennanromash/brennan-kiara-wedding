@@ -1,5 +1,6 @@
 ---
-
+import VideoMarquee from "../components/VideoMarquee.astro";
+import "../styles/global.css";
 ---
 
 <html lang="en">
@@ -8,9 +9,62 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Brennan & Kiara's Wedding | 1.16.2027</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body class="bg-sand text-dark-green min-h-screen font-playfair selection:bg-dark-green selection:text-sand">
+		<main class="relative">
+			<!-- Hero Section with Marquee -->
+			<section class="relative h-[80vh] w-full overflow-hidden border-b-4 border-dark-green">
+				<VideoMarquee />
+				
+				<div id="overlay" class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none z-10">
+					<div class="p-8 pointer-events-auto">
+						<h1 class="text-sand text-5xl md:text-7xl lg:text-8xl mb-6 italic drop-shadow-lg">Brennan & Kiara</h1>
+						<div class="flex items-center justify-center gap-4 text-sand border-y border-sand/50 py-4 uppercase tracking-[0.2em] text-lg drop-shadow-md">
+							<span>January 16, 2027</span>
+							<span class="text-2xl">•</span>
+							<span>Miami, Florida</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Details Section -->
+			<section class="max-w-4xl mx-auto py-24 px-6 text-center">
+				<div class="mb-16">
+					<h2 class="text-3xl md:text-4xl uppercase tracking-[0.1em] mb-8">The Celebration</h2>
+					<p class="text-xl leading-relaxed mb-6">
+						Join us for an evening of Black Tie elegance on the shores of Biscayne Bay. 
+						A celebration of love inspired by the timeless charm of Old Florida.
+					</p>
+					<div class="w-24 h-px bg-dark-green mx-auto my-8"></div>
+					<p class="italic text-lg">
+						Ceremony and Reception to be held at a private estate in Miami.
+					</p>
+				</div>
+
+				<div class="grid md:grid-cols-2 gap-12 text-left border-t border-dark-green/20 pt-16">
+					<div>
+						<h3 class="text-xl uppercase tracking-widest mb-4">Attire</h3>
+						<p>Black Tie. We invite our guests to embrace the formal nature of the evening. Gentlemen in tuxedos or dark suits, ladies in floor-length gowns or formal cocktail attire.</p>
+					</div>
+					<div>
+						<h3 class="text-xl uppercase tracking-widest mb-4">Registry</h3>
+						<p>Your presence is the greatest gift of all. Should you wish to honor us with a gift, a contribution to our future together would be warmly appreciated.</p>
+						<a href="https://www.zola.com/" target="_blank" class="inline-block mt-4 border-b border-dark-green hover:opacity-70 transition italic">
+							View Registry Details
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- Footer Decorative -->
+			<footer class="py-12 text-center border-t border-dark-green/10">
+				<p class="uppercase tracking-[0.4em] text-xs opacity-60">B & K — 2027</p>
+			</footer>
+		</main>
 	</body>
 </html>

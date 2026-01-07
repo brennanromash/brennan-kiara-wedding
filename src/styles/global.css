@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-dark-green: #004d40;
+  --color-sand: #f5f5dc;
+  --color-sand-dark: #e3d9c6;
+  
+  --font-playfair: "Playfair Display", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-sand text-dark-green font-playfair;
+  }
+}
